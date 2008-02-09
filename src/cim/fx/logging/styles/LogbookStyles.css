@@ -1,0 +1,57 @@
+/* CSS file */
+LogBook{
+	padding-top:0px;
+	padding-left:2px;
+	padding-right:2px;
+	padding-bottom:2px;
+}
+
+LCListenerConfigPanel{
+	padding-top:10px;
+	padding-left:10px;
+	padding-right:10px;
+	padding-bottom:10px;
+}
+
+.textAreaMono{
+	fontFamily: Monaco, Courier;
+	fontSize: 10pt;
+}
+
+.logbookTitle{
+	fontFamily: Tahoma;
+	fontSize: 20pt;
+	color:#000000;	
+}
+
+.logbookVersion{
+	fontFamily: Tahoma;
+	fontSize: 12pt;
+	color:#000000;
+}
+
+.linkStyle{
+	color:#333333;
+	disabledColor:#000000;
+	separatorColor:#666666;
+	fontWeight:bold;	
+}
+
+.topBar{
+	backgroundColor: #ECECEC;
+}
+
+.projectBackground{
+	border-style: solid;
+    border-thickness: 0;
+    border-skin: ClassReference("cim.fx.logging.skins.GradientBorder");
+    fill-colors: #CCCCCC, #F1F6E7;
+    drop-shadow-enabled: true;
+}
+
+.listTitleStyle{
+     border-style: solid;
+    border-thickness: 0;
+    border-skin: ClassReference("cim.fx.logging.skins.GradientBorder");
+    fill-colors: #FFFFFF, #eaeaea;
+}

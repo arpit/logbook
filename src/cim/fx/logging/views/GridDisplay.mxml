@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+
+The MIT License
+
+Copyright (c) 2008 Comcast Interactive Media
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+-->
+
+<mx:DataGrid xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:logbook="cim.fx.logging.logBook.*" 
+	verticalScrollPosition="{maxVerticalScrollPosition}">
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.dataGridClasses.DataGridColumn;
+			import mx.collections.ArrayCollection;
+			
+			public static const INFO_COLOR:uint = 0xb2ffb6;
+			public static const DEBUG_COLOR:uint = 0xdadada;
+			public static const WARN_COLOR:uint = 0xffe3b2;
+			public static const FATAL_COLOR:uint = 0xffb2b2;
+			public static const ERROR_COLOR:uint = 0xfffeb2;
+			
+			override protected function drawRowBackground(s:Sprite, rowIndex:int, y:Number, height:Number, color:uint,
+                                                                     dataIndex:int):void{
+			      var dp:ArrayCollection = dataProvider as ArrayCollection;
+			      var item:Object;
+			      if( dataIndex < dp.length ) item = dp.getItemAt(dataIndex);
+			      if( item != null ){
+			      	  if(item.level == 1000){
+					  	color = FATAL_COLOR;
+					  }else if(item.level == 8){
+					  	color = ERROR_COLOR;
+					  }else if(item.level == 6){
+						color = WARN_COLOR;
+					  }else if(item.level == 4){
+						color = INFO_COLOR;
+					  }else if(item.level == 2){
+						color = DEBUG_COLOR;
+					  } 
+			      } 
+			      super.drawRowBackground(s,rowIndex,y,height,color,dataIndex);
+			}
+			
+			private function timeStampLabelFunction(data:Object,column:DataGridColumn):String{
+				return timestampFormatter.format(data.date) + '.' + (data.date as Date).getMilliseconds()
+			}
+			
+			private function levelFormatFunction(data:Object, column:DataGridColumn):String{
+				return levelFormatter.format(data.level);	
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:DateFormatter id="timestampFormatter"
+                			formatString="JJ:NN:SS" /> 
+                			
+	<logbook:LogLevelFormatter id="levelFormatter" />
+	<mx:columns>
+		<mx:DataGridColumn dataField="date" headerText="Timestamp" minWidth="100" labelFunction="{timeStampLabelFunction}"/>
+		<mx:DataGridColumn dataField="level" headerText="Level"  width="50" minWidth="50" labelFunction="{levelFormatFunction}" />
+		<mx:DataGridColumn dataField="category" headerText="Category" width="175" minWidth="175" />
+		<mx:DataGridColumn dataField="message" headerText="Log" minWidth="350" />
+	</mx:columns>
+</mx:DataGrid>

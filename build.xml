@@ -1,0 +1,13 @@
+<project name="Memoria - AIR Logging Console" default="createASdocs">
+	<target name="createASdocs" description="Create AS Docs">
+		<exec
+			executable="/Frameworks/flex_sdk_3/bin/asdoc"
+			failonerror="true">
+			<arg line='-doc-sources ${basedir}/src'/>
+			<arg line="-library-path '/Frameworks/flex_sdk_3/frameworks/libs/'"/> 
+			<arg line="-library-path '/Frameworks/flex_sdk_3/frameworks/libs/air'"/> 
+			<arg line="-library-path '/Frameworks/flex_sdk_3/frameworks/locale/en_US'"/>
+			<arg line='-output ${basedir}/docs'/>
+		</exec>
+	</target>
+</project>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+The MIT License
+
+Copyright (c) 2008 Comcast Interactive Media
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+-->
+
+<logBook:LogBookMain
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:logBook="cim.fx.logging.logBook.*"
+	xmlns:cimViews="cim.fx.logging.views.*"
+	xmlns:cimRender="cim.fx.logging.renderers.*"
+	xmlns:cimEvents="cim.fx.logging.events.*"
+    initialize="init()"
+    creationComplete="onConfigureClick()"
+	closing="appSO.saveWindowLocation();"
+	>
+	<mx:Style source="/cim/fx/logging/styles/LogbookStyles.css"/>
+	<mx:Script>
+		<![CDATA[
+			import mx.events.ItemClickEvent;
+			import mx.events.ListEvent;
+			import mx.managers.PopUpManager;
+			import mx.collections.ArrayCollection;
+			import mx.events.DataGridEvent;
+			import mx.events.FlexEvent;
+			import mx.logging.LogEventLevel;
+			import mx.logging.LogEvent;
+			import mx.controls.List;
+			import mx.events.CollectionEvent;
+			import mx.collections.*;
+			
+			import cim.fx.logging.data.LogMessage;
+			import cim.fx.logging.events.*;
+			import cim.fx.logging.logBook.SavedWindowLocation;
+			import cim.fx.logging.views.LCListenerConfigPanel;
+			
+			import flash.filters.DropShadowFilter;
+			import flash.events.*;
+			
+			[Bindable]
+			private var logLevelOptions:ArrayCollection = new ArrayCollection([{label:"All", value:0},
+																			{label:"Debug", value:2},
+																			{label:"Info", value:4},
+																			{label:"Warn", value:6},
+																			{label:"Error", value:8},
+																			{label:"Fatal", value:1000}]);
+			private var holdString:String;
+			private var categoriesList:Array = new Array();
+			private var lgScrollBottom:Boolean = true;
+			private var llScrollBottom:Boolean = true;
+			private var tempSelectedIndecies:Array = new Array();
+			private var llSelectedItems:Array;
+			private var searching:Boolean = false;
+			
+			//TODO: what should we do with this?
+			private function onGridComplete(evt:Event):void{
+				//textVersion.showString();
+
+				if(searching==true && logGrid.verticalScrollPosition==0)return;
+				searching=false;
+                if(lgScrollBottom==true){
+	               logGrid.verticalScrollPosition=logGrid.maxVerticalScrollPosition;
+	               textVersion.verticalScrollPosition = textVersion.maxVerticalScrollPosition;
+                }
+			}
+			private function onLGScroll(evt:Event):void{
+				if(evt.target.verticalScrollPosition>=evt.target.maxVerticalScrollPosition-1){
+                	lgScrollBottom=true;
+                }else{
+                	lgScrollBottom = false;
+                }
+			}
+			/**
+			 * Initialize the project and start key event listeners. 
+			 * 
+			 */
+			 private function init():void{
+				application.addEventListener(KeyboardEvent.KEY_DOWN, keyDownListener);
+				application.addEventListener(KeyboardEvent.KEY_UP, keyUpListener);
+				addEventListener("StringComplete", onUpdateString);
+				appSO = new SavedWindowLocation(this);
+				appSO.setSavedWindowPosition();		
+			}
+
+			private function onUpdateString(evt:Event):void{
+				logsStringFormat = textVersion.text;
+			}
+			
+			/**
+			 * Filters results based on the category list selections, the selected level and the search field.
+			 */
+			private function filterResults():void {
+				logStorage.filterAll(getSelectedCategories(), getSelectedLevel(), searchField.text);				
+			}
+			
+			/**
+			 * function filters the items in log based on search field
+			 */ 
+			private function onSearchFieldChange():void{
+				//TODO: find a better way to deal with keeping the datagrid scrolled.
+				searching=true;
+				filterResults();
+			}
+			
+			/**
+			 * Fired by the category list changing.
+			 */
+			private function onCategoryListChange(evt:Event):void{
+				searching=true;
+				filterResults();
+			}
+			
+			private function onConfigureClick():void{
+				var configPanel:LCListenerConfigPanel = PopUpManager.createPopUp(this, LCListenerConfigPanel, true) as LCListenerConfigPanel;
+				PopUpManager.centerPopUp(configPanel);
+			}
+			
+			private function onLevelFilter(evt:ListEvent):void {
+				filterResults();
+			}
+			
+			/**
+			 * Returns the selected categories or all of the categories if nothing is selected.
+			 */
+			private function getSelectedCategories():Array {
+				if(logCategoryList.selectedItems.length>0){
+					return logCategoryList.selectedItems;
+				}else{
+					return ArrayCollection(logCategoryList.dataProvider).source;
+				}
+			}
+			
+			/**
+			 * Returns the selected level.
+			 */
+			private function getSelectedLevel():Number {
+				return Object(levelFilterCB.selectedItem).value;
+			}
+			
+			override protected function onNoLocalConnectionName():void{
+				//onConfigureClick()
+			}
+			
+			
+			[Bindable]
+            [Embed("/images/toolsBtn.png")]
+            private var configureIcon:Class;
+            
+            [Bindable]
+            [Embed("/images/helpBtn.png")]
+            private var helpIcon:Class;
+			
+			private var rightNavData:Array = [{label:'Configure', icon:configureIcon},{label:'About', icon:helpIcon}];
+			
+			private function onSettingsItemClick(event:ItemClickEvent):void{
+				if(event.index == 0){
+					onConfigureClick();
+				}
+				else{
+					navigateToURL(new URLRequest('http://teamcim.comcast.net/team/flash/logbook/'));
+				}
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:DateFormatter id="timestampFormatter" formatString="JJ:NN:SS" /> 
+	<mx:VBox width="100%" height="100%" verticalGap="10" horizontalGap="0" styleName="projectBackground">
+		<mx:Canvas id="topNavBar" width="100%" height="60" borderStyle="solid" borderSides="bottom" dropShadowEnabled="true" styleName="topBar" 
+			verticalScrollPolicy="off" horizontalScrollPolicy="off" >
+			<mx:Image source="icons/LogBookIcon_48.png"  width="48" height="48" x="10" y="5"  />
+			<mx:Text id="lbTitle" styleName="logbookTitle" text="LogBook" x="65" y="5"/>
+			<mx:Text id="lbVersion" styleName="logbookVersion" x="65" text="{getLocalVersion()}" y="35"/>
+			<mx:Image source="images/divide.png" height="48" top="5" right="{rightNav.width+30}"/>
+			
+			<mx:ButtonBar iconField="icon" id="rightNav" dataProvider="{rightNavData}" 
+				right="10" y="10" horizontalGap="5" height="30" itemClick="onSettingsItemClick(event)"  />
+		</mx:Canvas>
+		
+		<mx:Canvas width="100%" top="{topNavBar.height+10}">
+			<mx:LinkBar styleName="linkStyle"  dataProvider="{tabTextGrid}"/>
+			<mx:HBox right="10" top="5" verticalAlign="middle" >
+				<mx:Label text="Level:"/>
+				<mx:ComboBox id="levelFilterCB" width="150" dataProvider="{logLevelOptions}" change="onLevelFilter(event)"/>
+				<mx:Image source="images/divide.png" height="18"/>
+				<mx:TextInput id="searchField" width="200" change="onSearchFieldChange()"/>
+				<mx:Image source="images/divide.png" height="18"/>
+				<mx:Button id="clearLogs_btn" label="Clear Logs" click="clearLogs()" />
+				<mx:Image source="images/divide.png" height="18"/>
+				<mx:Image source="images/saveBtn.png" click="onSaveLogsToFile()"  width="16" height="16" right="10" buttonMode="true" useHandCursor="true"/>
+				<mx:Text id="saveFile" text="Save" click="onSaveLogsToFile()" buttonMode="true" useHandCursor="true" />
+			</mx:HBox>
+		</mx:Canvas>
+		<mx:HDividedBox width="100%" height="100%">
+			<mx:VBox width="150" height="100%" verticalGap="-1">
+				<mx:Canvas styleName="listTitleStyle" width="100%" height="22" borderThickness="1">
+					<mx:Label fontWeight="bold" text="Loggers" width="100%" />
+				</mx:Canvas>
+				<mx:List id="logCategoryList" dataProvider="{logStorage.categories}" 
+					allowMultipleSelection="true" change="onCategoryListChange(event)" width="100%" height="100%" />
+				
+			</mx:VBox>
+
+			<mx:ViewStack id="tabTextGrid" width="100%" height="100%" creationPolicy="all">
+				<mx:VBox label="Grid View">
+					<cimViews:GridDisplay id="logGrid" dataProvider="{logStorage.logs}"   
+						height="100%" width="100%"
+						itemClick="onItemClick(event)" scroll="onLGScroll(event)"
+						/>					
+				</mx:VBox>
+				<mx:HBox label="Text View">
+					<cimViews:TextAreaDisplay id="textVersion" styleName="textAreaMono"
+						editable="false" width="100%" height="100%" dataProvider="{logStorage.logs}" 
+						scroll="onLGScroll(event)" horizontalScrollPolicy="auto" wordWrap="false"/>
+				</mx:HBox>
+			</mx:ViewStack>
+		</mx:HDividedBox>
+	</mx:VBox>
+</logBook:LogBookMain>
