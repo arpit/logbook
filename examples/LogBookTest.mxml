@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" creationComplete="onCreationComplete()">
+	<mx:Panel width="400" height="250" layout="vertical"
+	    paddingLeft="10" paddingTop="10" title="LogBook Test">
+		<mx:Label text="{'Broadcasting on channel: '+loggingChannel }"/>
+		<mx:TextInput width="250" id="msg" text="Type your message here"/>
+		<mx:ComboBox id="levelCB" dataProvider="{logLevelOptions}"/>
+		<mx:Button label="send" click="sendLogMessage()"/>
+	</mx:Panel>
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			
+			import mx.collections.ArrayCollection;
+			import mx.logging.*;
+			import cim.fx.logging.targets.LocalConnectionTarget;
+			
+			//_loggingReceiver
+			
+			[Bindable]
+			private var loggingChannel:String = "_test";
+			
+			
+			[Bindable]
+			private var logLevelOptions:ArrayCollection = new ArrayCollection([
+																			{label:"Debug", value:2},
+																			{label:"Info", value:4},
+																			{label:"Warn", value:6},
+																			{label:"Error", value:8},
+																			{label:"Fatal", value:1000}]); 
+																			
+			private var logger:ILogger
+			
+			private function onCreationComplete():void{
+				var loggingTarget:LocalConnectionTarget = new LocalConnectionTarget(loggingChannel);
+				loggingTarget.filters=["*"];
+				loggingTarget.level = LogEventLevel.ALL;
+				loggingTarget.includeDate = true;
+				loggingTarget.includeTime = true;
+				loggingTarget.includeCategory = true;
+				loggingTarget.includeLevel = true;
+				
+				logger = Log.getLogger(this.className);
+				
+					
+			}
+																			
+			private function sendLogMessage():void{
+				switch(levelCB.selectedIndex){
+					case 0 : logger.debug(msg.text);
+							break;
+					case 1 : logger.info(msg.text);
+							break;
+					case 2 : logger.warn(msg.text);
+							break;
+					case 3: logger.error(msg.text);
+							break;
+					case 4: logger.fatal(msg.text);
+							break;		 
+				}
+				
+			}
+		]]>
+	</mx:Script>
+</mx:Application>
