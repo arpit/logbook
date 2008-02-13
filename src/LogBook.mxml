@@ -38,6 +38,7 @@ THE SOFTWARE.
 	<mx:Style source="/cim/fx/logging/styles/LogbookStyles.css"/>
 	<mx:Script>
 		<![CDATA[
+			import mx.core.UITextField;
 			import mx.events.ItemClickEvent;
 			import mx.events.ListEvent;
 			import mx.managers.PopUpManager;
@@ -182,6 +183,13 @@ THE SOFTWARE.
 				}
 			}
 			
+			private function onLoggerListClick(event:Event):void{
+				if(!(event.target is UITextField)){
+					logCategoryList.selectedIndex = -1;
+					filterResults();
+				}
+			}
+			
 		]]>
 	</mx:Script>
 	<mx:DateFormatter id="timestampFormatter" formatString="JJ:NN:SS" /> 
@@ -217,7 +225,9 @@ THE SOFTWARE.
 					<mx:Label fontWeight="bold" text="Loggers" width="100%" />
 				</mx:Canvas>
 				<mx:List id="logCategoryList" dataProvider="{logStorage.categories}" 
-					allowMultipleSelection="true" change="onCategoryListChange(event)" width="100%" height="100%" />
+					allowMultipleSelection="true" 
+					change="onCategoryListChange(event)" width="100%" height="100%"
+				    click="{onLoggerListClick(event)}" />
 				
 			</mx:VBox>
 
