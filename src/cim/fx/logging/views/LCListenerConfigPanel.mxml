@@ -31,7 +31,7 @@ THE SOFTWARE.
 	width="400" height="200" layout="vertical" showCloseButton="true" close="onCancelClick()">
 	
 	<mx:Text width="100%" text="Enter the name of the connection you want to listen on. " />
-	<mx:TextInput width="100%" id="connectionNameTextInput"/>
+	<mx:TextInput width="100%" id="connectionNameTextInput" enter="onSaveClick()"/>
 	<mx:HBox width="100%">
 		<mx:Button label="Cancel" click="onCancelClick()" />
 		<mx:Spacer width="100%"/>
