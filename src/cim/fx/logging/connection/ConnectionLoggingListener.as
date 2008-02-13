@@ -90,9 +90,6 @@ package cim.fx.logging.connection
 		 * @see	cim.fx.logging.targets.LocalConnectionTarget
 		 */
 		public function logMessage(date:Date, category:String, level:Number, message:String):void {
-			
-			trace('called log message.. ');
-			
 			var log:LogMessage = new LogMessage();
 			log.date = date;
 			log.category = category;
