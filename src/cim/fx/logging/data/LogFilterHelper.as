@@ -49,7 +49,7 @@ package cim.fx.logging.data
 		}
 		public function onLevel(item:LogMessage):Boolean {
 			if(filterLevel== -1) return true;
-			if(filterLevel <= item.level && filterCategories.indexOf(item.category) != -1){
+			if(filterLevel <= item.level ){
 				return true;
 			}
 			return false;

@@ -101,10 +101,9 @@ package cim.fx.logging.data
 		 * Removes all the logs in memory.
 		 */
 		public function clear():void {
-			filter(null);
-			_categories.removeAll();
-			_logs.removeAll();
-			refresh();
+			filterHelper.filterCategories = null;
+			_logs.source = [];
+			_categories.source = [];	
 		}
 		
 		/**
