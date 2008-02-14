@@ -28,9 +28,13 @@ THE SOFTWARE.
 
 <mx:DataGrid xmlns:mx="http://www.adobe.com/2006/mxml" 
 	xmlns:logbook="cim.fx.logging.logBook.*" 
-	verticalScrollPosition="{maxVerticalScrollPosition}">
+	verticalScrollPosition="{maxVerticalScrollPosition}"
+    doubleClickEnabled="true" doubleClick="showMessageWindow()">
 	<mx:Script>
 		<![CDATA[
+			import mx.events.CloseEvent;
+			import cim.fx.logging.data.LogMessage;
+			import mx.managers.PopUpManager;
 			import mx.controls.dataGridClasses.DataGridColumn;
 			import mx.collections.ArrayCollection;
 			
@@ -67,6 +71,23 @@ THE SOFTWARE.
 			
 			private function levelFormatFunction(data:Object, column:DataGridColumn):String{
 				return levelFormatter.format(data.level);	
+			}
+			
+			private var mw:MessageDetailWindow;
+			
+			private function showMessageWindow():void{
+				if(!mw) {
+					mw = PopUpManager.createPopUp(this, MessageDetailWindow) as MessageDetailWindow;
+					PopUpManager.centerPopUp(mw);
+				}
+				if(!this.selectedItem)return;
+				mw.msgTxt.text = LogMessage(this.selectedItem).message;
+				mw.addEventListener(CloseEvent.CLOSE, onMessageWindowClose);
+			}
+			
+			private function onMessageWindowClose(event:CloseEvent):void{
+				PopUpManager.removePopUp(mw);
+				mw = null;
 			}
 			
 		]]>
