@@ -64,6 +64,7 @@ package cim.fx.logging.connection
         	connection.allowDomain(domain);
         	// call all methods coming through the LC on this class 
         	connection.client = this;
+        	if(_connectionName)
         	connection.connect(_connectionName);		
 		}
 		
