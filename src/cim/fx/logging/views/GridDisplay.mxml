@@ -47,6 +47,7 @@ THE SOFTWARE.
 			override protected function drawRowBackground(s:Sprite, rowIndex:int, y:Number, height:Number, color:uint,
                                                                      dataIndex:int):void{
 			      var dp:ArrayCollection = dataProvider as ArrayCollection;
+			      if(!dp)return;
 			      var item:Object;
 			      if( dataIndex < dp.length ) item = dp.getItemAt(dataIndex);
 			      if( item != null ){

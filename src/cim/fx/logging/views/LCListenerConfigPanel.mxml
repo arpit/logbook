@@ -49,7 +49,7 @@ THE SOFTWARE.
 			}
 			
 			private function onSaveClick():void{
-				LogBookMain(Application.application).setConnectionName(connectionNameTextInput.text);
+				LogBookMain(Application.application).createLogPage(connectionNameTextInput.text);
 				PopUpManager.removePopUp(this);
 			}
 			
