@@ -76,26 +76,9 @@ package cim.fx.logging.logBook
 		
 		private var holdString:String;
 		private var connectionName:String;
-			
-		public function LogBookMain()
-		{
-			super();
-			initApp();
-		}
-		
-		private function initApp():void{
-			logStorage = new LogStorage();
-			createLoggingListener();
-
-		}
-		
-		private function createLoggingListener():void
-		{
-			if(!connectionName || connectionName == ""){
-				onNoLocalConnectionName();
-			}
-			else if(connectionLoggingListener == null){
-				trace('setting connection logging on '+connectionName);
+					
+		protected function createLoggingListener():void{
+			if(connectionLoggingListener == null){
 				connectionLoggingListener = new ConnectionLoggingListener(connectionName);
 				connectionLoggingListener.addEventListener(LogBookEvent.LOG_BOOK_LOG, handleLogEvent);	
 			}
@@ -103,11 +86,6 @@ package cim.fx.logging.logBook
 				this.connectionLoggingListener.setConnectionName(connectionName);
 			}
 			
-		}
-		
-		
-		protected function onNoLocalConnectionName():void{
-			trace('No localConnection name was provided')
 		}
 		
 		
