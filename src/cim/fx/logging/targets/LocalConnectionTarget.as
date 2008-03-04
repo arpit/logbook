@@ -61,6 +61,12 @@ public class LocalConnectionTarget extends LineFormattedTarget
 		lc = new LocalConnection();
         lc.addEventListener(StatusEvent.STATUS, statusEventHandler);
         this.connection = connectionId;
+        this.filters=["*"];
+		this.level = LogEventLevel.ALL;
+		this.includeDate = true;
+		this.includeTime = true;
+		this.includeCategory = true;
+		this.includeLevel = true;
     }
     
 	//--------------------------------------------------------------------------
