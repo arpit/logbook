@@ -10,4 +10,13 @@
 			<arg line='-output ${basedir}/docs'/>
 		</exec>
 	</target>
+	<target name="createSWC" description="Creates a LogBook.swc file that can be loaded into client apps.">
+		<exec
+			executable="/Frameworks/flex_sdk_3/bin/compc"
+			failonerror="true">
+			<arg line="-source-path+=src"/>
+			<arg line="-output bin-debug/LogBook.swc"/>
+			<arg line="cim/fx/logging/targets/LocalConnectionTarget"/>
+		</exec>
+	</target>
 </project>
