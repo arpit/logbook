@@ -42,14 +42,13 @@ THE SOFTWARE.
 		<![CDATA[
 			import mx.managers.PopUpManager;
 			import mx.core.Application;
-			import cim.fx.logging.logBook.LogBookMain;
 			
 			private function onCancelClick():void{
 				PopUpManager.removePopUp(this);
 			}
 			
 			private function onSaveClick():void{
-				LogBookMain(Application.application).createLogPage(connectionNameTextInput.text);
+				LogBook(Application.application).createLogPage(connectionNameTextInput.text);
 				PopUpManager.removePopUp(this);
 			}
 			
