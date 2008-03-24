@@ -10,7 +10,7 @@
 	
 	-->
 	
-	<target name="compileLogBook" description="Compiles the LogBook Air and Web app">
+	<target name="compileWeb" description="Compiles the LogBook Web app">
 		<echo message="compiling Flex (Web) Application"/>
 		<mxmlc file="src/LogBookWeb.mxml"
 			   output="release/web/LogBookWeb.swf">
@@ -18,7 +18,25 @@
 		</mxmlc>
 	</target>
 	
-	<target name="release" description="Task for creating new releases of LogBook" depends="compileLogBook">
+	<target name="compileAIR" description="Compiles the LogBook Air and Web app">
+		<echo message="compiling AIR Application"/>
+		<exec executable="mxmlc"> 
+			<arg value="+configname=air"/>
+			<arg value="-source-path=src"/>
+			<arg value="src/LogBook.mxml"/>
+		</exec>
+	</target>
+	
+	<!-- warning: In a typical air project, the app descriptor's main file has 
+	no value by default and is created when you test the project. Make sure you set that value
+	before you try the testAIR task -->
+	<target name="testAIR" depends="compileAIR">
+	    <exec executable="${ADL}">
+	        <arg value="${APP_DESCRIPTOR}"/>
+	    </exec> 
+	</target>
+	
+	<target name="release" description="Task for creating new releases of LogBook">
 		<copy todir="release/web" overwrite="true">
 			 <fileset dir="web"/> 
 		</copy>
