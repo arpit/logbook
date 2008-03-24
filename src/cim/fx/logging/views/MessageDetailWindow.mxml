@@ -39,7 +39,6 @@ THE SOFTWARE.
 		<![CDATA[
 			import mx.events.CloseEvent;
 			import mx.managers.PopUpManager;
-			import mx.core.Application;
 			
 			private function onCloseClick():void{
 				dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
