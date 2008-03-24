@@ -40,7 +40,6 @@ THE SOFTWARE.
 			import mx.events.CloseEvent;
 			import mx.managers.PopUpManager;
 			import mx.core.Application;
-			import cim.fx.logging.logBook.LogBookMain;
 			
 			private function onCloseClick():void{
 				dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
