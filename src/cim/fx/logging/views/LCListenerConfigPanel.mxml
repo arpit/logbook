@@ -48,7 +48,7 @@ THE SOFTWARE.
 			}
 			
 			private function onSaveClick():void{
-				LogBook(Application.application).createLogPage(connectionNameTextInput.text);
+				(Application.application).createLogPage(connectionNameTextInput.text);
 				PopUpManager.removePopUp(this);
 			}
 			
