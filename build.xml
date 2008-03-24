@@ -1,4 +1,33 @@
-<project name="Memoria - AIR Logging Console" default="createASdocs">
+<project name="Memoria - AIR Logging Console" default="compileLogBook">
+	<loadproperties srcFile="build.properties"/>
+	<taskdef resource="flexTasks.tasks" />
+	
+	<!--
+	
+	If compiling from terminal, make sure the Flex lib folder is
+	in Ant's path:
+		 ant -lib /Applications/flex_sdk_3.0.0.477/lib/
+	
+	-->
+	
+	<target name="compileLogBook" description="Compiles the LogBook Air and Web app">
+		<echo message="compiling Flex (Web) Application"/>
+		<mxmlc file="src/LogBookWeb.mxml"
+			   output="release/web/LogBookWeb.swf">
+			<compiler.source-path path-element="${src.dir}" />
+		</mxmlc>
+	</target>
+	
+	<target name="release" description="Task for creating new releases of LogBook" depends="compileLogBook">
+		<copy todir="release/web" overwrite="true">
+			 <fileset dir="web"/> 
+		</copy>
+		<mxmlc file="src/LogBookWeb.mxml"
+			   output="release/web/LogBookWeb.swf">
+				<compiler.source-path path-element="src" />
+		</mxmlc>
+	</target>
+	
 	<target name="createASdocs" description="Create AS Docs">
 		<exec
 			executable="/Frameworks/flex_sdk_3/bin/asdoc"
@@ -19,4 +48,5 @@
 			<arg line="cim/fx/logging/targets/LocalConnectionTarget"/>
 		</exec>
 	</target>
+	
 </project>
