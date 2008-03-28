@@ -79,20 +79,20 @@ THE SOFTWARE.
 			/* from code behind******/
 			
 			[Bindable]
-		public var logPage:LogPage;
-		
-		//temporarily public
-		protected var levelFilter:Number=-1;
-		public var selectedCategories:Array= new Array();
-		
-		//variables for file save
-		private var textString:String
-		
-		private var connectionName:String;
-		
-		public function createLogPage(connectionName:String):void{
-			this.logPage = new LogPage(connectionName);
-		}
+			public var logPage:LogPage;
+			
+			//temporarily public
+			protected var levelFilter:Number=-1;
+			public var selectedCategories:Array= new Array();
+			
+			//variables for file save
+			private var textString:String
+			
+			private var connectionName:String;
+			
+			public function createLogPage(connectionName:String):void{
+				this.logPage = new LogPage(connectionName);
+			}
 		
        
 			/*  end code behind*/
@@ -227,10 +227,10 @@ THE SOFTWARE.
 	<mx:VBox width="100%" height="100%" verticalGap="10" horizontalGap="0" styleName="projectBackground">
 		<mx:Canvas id="topNavBar" width="100%" height="60" borderStyle="solid" borderSides="bottom" dropShadowEnabled="true" styleName="topBar" 
 			verticalScrollPolicy="off" horizontalScrollPolicy="off" >
-			<mx:Image source="icons/LogBookIcon_48.png"  width="48" height="48" x="10" y="5"  />
+			<mx:Image source="@Embed(source='icons/LogBookIcon_48.png')"  width="48" height="48" x="10" y="5"  />
 			<mx:Text id="lbTitle" styleName="logbookTitle" text="LogBook" x="65" y="5"/>
 			
-			<mx:Image source="images/divide.png" height="48" top="5" right="{rightNav.width+30}"/>
+			<mx:Image source="@Embed(source='images/divide.png')" height="48" top="5" right="{rightNav.width+30}"/>
 			
 			<mx:ButtonBar iconField="icon" id="rightNav" dataProvider="{rightNavData}" 
 				right="10" y="10" horizontalGap="5" height="30" itemClick="onSettingsItemClick(event)"  />
@@ -241,11 +241,11 @@ THE SOFTWARE.
 			<mx:HBox right="10" top="5" verticalAlign="middle" >
 				<mx:Label text="Level:"/>
 				<mx:ComboBox id="levelFilterCB" width="150" dataProvider="{logLevelOptions}" change="onLevelFilter(event)"/>
-				<mx:Image source="images/divide.png" height="18"/>
+				<mx:Image source="@Embed(source='images/divide.png')" height="18"/>
 				<mx:TextInput id="searchField" width="200" change="onSearchFieldChange()"/>
-				<mx:Image source="images/divide.png" height="18"/>
+				<mx:Image source="@Embed(source='images/divide.png')" height="18"/>
 				<mx:Button id="clearLogs_btn" label="Clear Logs" click="clearLogs()" />
-				<mx:Image source="images/divide.png" height="18"/>
+				<mx:Image source="@Embed(source='images/divide.png')" height="18"/>
 			</mx:HBox>
 		</mx:Canvas>
 		<mx:HDividedBox width="100%" height="100%">

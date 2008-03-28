@@ -9,6 +9,7 @@
 <sourceAttachmentPath/>
 </compiler>
 <applications>
+<application path="LogBookWeb.mxml"/>
 <application path="LogBook.mxml"/>
 </applications>
 <modules/>

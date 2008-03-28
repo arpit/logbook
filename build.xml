@@ -1,4 +1,4 @@
-<project name="Memoria - AIR Logging Console" default="compileLogBook">
+<project name="LogBook - AIR Logging Console" default="compileWeb">
 	<loadproperties srcFile="build.properties"/>
 	<taskdef resource="flexTasks.tasks" />
 	
