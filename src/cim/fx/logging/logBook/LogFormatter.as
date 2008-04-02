@@ -28,16 +28,25 @@ package cim.fx.logging.logBook{
 	import cim.fx.logging.data.LogStorage;
 	import mx.formatters.DateFormatter;
 	
-	
+	/**
+	 * Formats the Log Messages to a format easy to
+	 * view. Implemented as a Singleton.
+	 */ 
 	public class LogFormatter{
 		private var timestampFormatter:DateFormatter = new DateFormatter();
 		private var levelFormatter:LogLevelFormatter = new LogLevelFormatter();
 		
+		/**
+		 * @private
+		 */ 
 		public function LogFormatter(){
 			timestampFormatter.formatString = "JJ:NN:SS";
 		}
 		
 		private static var instance:LogFormatter;
+		/**
+		 * Singleton access
+		 */ 
 		public static function getInstance():LogFormatter{
 			if(!instance){
 				instance = new LogFormatter();
@@ -45,12 +54,26 @@ package cim.fx.logging.logBook{
 			return instance;
 		}
 		
+		/**
+		 * Formats the LogMessage objects as needed.
+		 * @see cim.fx.logging.data.LogMessage
+		 * 
+		 * @param	logEntry	The <code>LogMessage</code> object to be formatted.
+		 */ 
 		public function formatLog(logEntry:LogMessage):String{
 			var ts:String = timestampFormatter.format(logEntry.date)+" \t"
 			var lf:String = padTrailing(levelFormatter.format(logEntry.level), 10, " ");
 			return ts+lf+padTrailing(logEntry.category, 25, " ")+logEntry.message+"\n";	
 		}
 		
+		/**
+		 * Format an array of <code>LogMessage</code> objects and return a String 
+		 * representation of it all. Used when the LogBook goes from grid view to
+		 * text view.
+		 * 
+		 * @param	sourceArray	An array of <code>LogMessage</code> objects.
+		 * @see	cim.fx.logging.data.LogMessage
+		 */ 
 		public function formatLogs(sourceArray:Array):String{
 			var textString:String = "";
 			for(var i:int; i<sourceArray.length; i++){
@@ -59,6 +82,12 @@ package cim.fx.logging.logBook{
 			return textString;
 		}
 		
+		/**
+		 * Format all the logs in a LogStorage
+		 * 
+		 * @param	data	An instance of <code>LogStorage</code>
+		 * @see	cim.fx.logging.data.LogStorage
+		 */ 
 		public function formatLogStorage(data:LogStorage):String {
 			var sourceArray:Array = data.logs.source;
 			return formatLogs(sourceArray);

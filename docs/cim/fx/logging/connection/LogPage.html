@@ -42,7 +42,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 </table>
 <p></p>
-<p></p>
+  LogPage is the data model representing one 
+  Logging connection. The LogBook can manage multiple 
+  LogPages
+  <p></p>
 <br>
 <hr>
 </div>
@@ -98,7 +101,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#filterAll()">filterAll</a>(category:Array, level:Number, text:String):void</div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   Filter through the logs via categories, levels and text values
+   
+   </div>
 </td><td class="summaryTableOwnerCol">LogPage</td>
 </tr>
 <tr class="">
@@ -203,22 +209,28 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function filterAll(category:Array, level:Number, text:String):void</code><span class="label">Parameters</span>
+<code>public function filterAll(category:Array, level:Number, text:String):void</code><p>
+   Filter through the logs via categories, levels and text values
+   
+   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">category</span>:Array</code></td>
+<td width="20px"></td><td><code><span class="label">category</span>:Array</code> &mdash; An array of categories
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">level</span>:Number</code></td>
+<td width="20px"></td><td><code><span class="label">level</span>:Number</code> &mdash;  Only logs above this level will be seen
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">text</span>:String</code></td>
+<td width="20px"></td><td><code><span class="label">text</span>:String</code> &mdash;  Only logs with this as a substring will be seen
+   </td>
 </tr>
 </table>
 </div>

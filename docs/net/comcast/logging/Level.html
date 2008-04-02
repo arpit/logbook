@@ -54,7 +54,8 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#getLevelString()">getLevelString</a>(level:Number):String</div>
-<div class="summaryTableDescription">[static]</div>
+<div class="summaryTableDescription">[static]
+   </div>
 </td><td class="summaryTableOwnerCol">Level</td>
 </tr>
 </table>
@@ -110,17 +111,22 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public static function getLevelString(level:Number):String</code><span class="label">Parameters</span>
+<code>public static function getLevelString(level:Number):String</code><p>
+   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">level</span>:Number</code></td>
+<td width="20px"></td><td><code><span class="label">level</span>:Number</code> &mdash; A Number representing a Log level. The Number must
+        be one of values as the Levels declared here as static
+        constants, else "UNKNOWN_LEVEL" is returned.
+   </td>
 </tr>
 </table>
 <p></p>
 <span class="label">Returns</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20"></td><td><code>String</code></td>
+<td width="20"></td><td><code>String</code> &mdash; The string corresponding to a Log level
+   </td>
 </tr>
 </table>
 </div>

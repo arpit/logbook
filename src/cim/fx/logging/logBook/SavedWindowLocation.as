@@ -28,6 +28,12 @@ package cim.fx.logging.logBook
 	import flash.net.SharedObject;
 	
 	import mx.core.WindowedApplication;
+	
+	/**
+	 * Class used for saving an Air application's location and size on
+	 * the display screen. The x,y, width and height co-oridinates are saved
+	 * to a shared object.
+	 */ 
 	public class SavedWindowLocation 
 	{
 		private var _application:WindowedApplication;

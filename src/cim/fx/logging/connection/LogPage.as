@@ -40,6 +40,12 @@ package cim.fx.logging.connection
 	 */
 	[Event(name="logBookLog",type="cim.fx.logging.events.LogBookEvent")]
 	
+	/**
+	 * LogPage is the data model representing one 
+	 * Logging connection. The LogBook can manage multiple 
+	 * LogPages
+	 */ 
+	
 	public class LogPage extends EventDispatcher{
 		
 		[Bindable]
@@ -107,6 +113,13 @@ package cim.fx.logging.connection
 			logStorage.filter(null);
 		}
 		
+		/**
+		 * Filter through the logs via categories, levels and text values
+		 * 
+		 * @param	category	An array of categories
+		 * @param	level		Only logs above this level will be seen
+		 * @param	text		Only logs with this as a substring will be seen
+		 */ 
 		public function filterAll(category:Array, level:Number, text:String):void{
 			logStorage.filterAll(category, level, text);
 		}

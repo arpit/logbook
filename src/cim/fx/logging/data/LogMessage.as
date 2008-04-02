@@ -26,9 +26,12 @@ THE SOFTWARE.
 package cim.fx.logging.data
 {
 	import cim.fx.logging.logBook.LogLevelFormatter;
-	
 	import mx.formatters.DateFormatter;
 	
+	/**
+	 *  A data object class used to store the info associated with a particular logging message.
+	 */
+		 
 	[Bindable]
 	public class LogMessage
 	{
@@ -71,9 +74,7 @@ package cim.fx.logging.data
 	     */
 		public var level:Number;
 		
-		/**
-		 * A data object class used to store the info associated with a particular logging message.
-		 */
+		
 		public function LogMessage():void {
 		}
 		

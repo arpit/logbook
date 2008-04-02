@@ -35,6 +35,12 @@ package net.comcast.logging{
 		
 		public static const UNKNOWN_LEVEL:String = "UNKNOWN_LEVEL";
 		
+		/**
+		 * @param	level	A Number representing a Log level. The Number must
+		 * 					be one of values as the Levels declared here as static
+		 * 					constants, else "UNKNOWN_LEVEL" is returned.
+		 * @return	The string corresponding to a Log level
+		 */ 
 		public static function getLevelString(level:Number):String{
 			switch(level){
 				case FATAL : 	return "SEVERE";
