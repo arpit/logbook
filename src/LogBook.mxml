@@ -61,6 +61,8 @@ THE SOFTWARE.
 			
 			import flash.filters.DropShadowFilter;
 			import flash.events.*;
+			import flash.filesystem.*;
+			import flash.desktop.NativeApplication;
 			
 			[Bindable]
 			private var logLevelOptions:ArrayCollection = new ArrayCollection([{label:"All", value:0},
