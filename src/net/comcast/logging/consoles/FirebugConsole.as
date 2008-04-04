@@ -31,10 +31,10 @@ package net.comcast.logging.consoles{
 	
 	/**
 	 * The FirebugConsole requires that the user have the firebug extension
-	 * for Firefox installed
+	 * for Firefox installed.
 	 * 
 	 * warning: Console calls will cause errors if the user doesn't have it installed
-	 * or the site doesn't have a logging framework (as portalds does).
+	 * or the site doesn't have a logging framework
 	 */ 
 	public class FirebugConsole implements IConsole{
 		
