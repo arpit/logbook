@@ -30,8 +30,6 @@ import flash.events.*;
 import flash.net.LocalConnection;
 import flash.utils.getQualifiedClassName;
 
-import mx.logging.*;
-import mx.logging.targets.*;
 
 /**
  * Provides a logger target that outputs to a <code>LocalConnection</code>,
