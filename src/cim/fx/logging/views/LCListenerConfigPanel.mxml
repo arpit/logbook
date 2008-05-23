@@ -27,29 +27,83 @@ THE SOFTWARE.
 -->
 
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
-    title="Configure Connection" 
-	width="400" height="200" layout="vertical" showCloseButton="true" close="onCancelClick()">
+    title="Configure Connection" creationComplete="onCreationComplete()" 
+	width="400" height="200" layout="vertical" 
+	showCloseButton="true" close="onCancelClick()" 
+	xmlns:logBook="cim.fx.logging.logBook.*" 
+	xmlns:adobe="http://www.adobe.com/2006/fc" >
 	
 	<mx:Text width="100%" text="Enter the name of the connection you want to listen on. " />
-	<mx:TextInput width="100%" id="connectionNameTextInput" enter="onSaveClick()"/>
+	<adobe:AutoComplete keepLocalHistory="true" width="100%"  
+		id="connectionNameTextInput" enter="onEnterClick()"
+	    open="onOpen()" close="onClose()"  
+		/>
 	<mx:HBox width="100%">
 		<mx:Button label="Cancel" click="onCancelClick()" />
 		<mx:Spacer width="100%"/>
-		<mx:Button label="Save" click="onSaveClick()" />
+		<mx:Button id="saveBttn" enabled="false" 
+			label="Save" click="onSaveClick()" />
 	</mx:HBox>
 	
+	<logBook:ConnectionNameValidator id="connectionNameValidator" 
+			source="{connectionNameTextInput}" 
+			property="text" triggerEvent="change" 
+			valid="onValidConnection()" 
+			invalid="{saveBttn.enabled=false}"  />
+	 
 	<mx:Script>
 		<![CDATA[
+			import mx.controls.Alert;
 			import mx.managers.PopUpManager;
 			import mx.core.Application;
+			
+			private var _oldConnectionName:String;
+			
+			private function onCreationComplete():void{
+				_oldConnectionName = (Application.application).getConnectionName()
+				this.connectionNameTextInput.text = _oldConnectionName;
+				focusManager.setFocus(this.connectionNameTextInput);
+			}
+			
+			private function onValidConnection():void{
+				if(connectionNameTextInput.text != _oldConnectionName){
+					saveBttn.enabled=true
+				}
+				else{
+					saveBttn.enabled=false;
+				}
+			}
 			
 			private function onCancelClick():void{
 				PopUpManager.removePopUp(this);
 			}
 			
 			private function onSaveClick():void{
-				(Application.application).createLogPage(connectionNameTextInput.text);
+				/* do not do anything if the user is already connected to 
+				   this localconnection */
+				if(connectionNameTextInput.text != _oldConnectionName) {
+					(Application.application).createLogPage(connectionNameTextInput.text);
+				}
 				PopUpManager.removePopUp(this);
+			}
+			
+			private function onEnterClick():void{
+				if(_isOpen) return
+				if(connectionNameValidator.validate(connectionNameTextInput.text).results){
+					connectionNameTextInput.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_OUT));
+					connectionNameTextInput.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_OVER));
+				}
+				else{
+					onSaveClick();
+				}
+			}
+			
+			private var _isOpen:Boolean=false
+			private function onOpen():void{
+				_isOpen=true
+			}
+			private function onClose():void{
+				_isOpen=false;
 			}
 			
 		]]>
