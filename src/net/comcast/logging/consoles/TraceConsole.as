@@ -27,6 +27,7 @@ THE SOFTWARE.
 package net.comcast.logging.consoles{
 	
 	import flash.utils.*;
+	
 	import net.comcast.logging.Level;
 	
 	/**
@@ -41,7 +42,12 @@ package net.comcast.logging.consoles{
 	public class TraceConsole implements IConsole{
 		
 		public function log(source:*, level:Number, msg:String):void{
-			trace("["+Level.getLevelString(level)+"]["+getQualifiedClassName(source)+"]"+msg);	
+			var className:String = getQualifiedClassName(source);
+			var token:String = className == "String"?source:className;
+			if(token.indexOf("::")>1){
+				token = token.split("::")[1]
+			}
+			trace("["+Level.getLevelString(level)+"]["+token+"]"+msg);	
 		}
 	}
 }

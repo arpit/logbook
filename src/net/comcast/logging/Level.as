@@ -43,7 +43,7 @@ package net.comcast.logging{
 		 */ 
 		public static function getLevelString(level:Number):String{
 			switch(level){
-				case FATAL : 	return "SEVERE";
+				case FATAL : 	return "FATAL";
 							 	break;
 				case ERROR   : 	return "ERROR";
 								break;

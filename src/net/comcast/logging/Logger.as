@@ -26,7 +26,6 @@ THE SOFTWARE.
 
 package net.comcast.logging{
 	import net.comcast.logging.consoles.IConsole;
-	import net.comcast.logging.consoles.TraceConsole;
 	
 	/**
 	 * The Logger class logs messages from the application to a 
@@ -41,8 +40,10 @@ package net.comcast.logging{
 	 
 	public class Logger{
 		
-		private static var _console:IConsole = new TraceConsole()
-		private static var level:Number=200;
+		private static var level:Number=Level.ALL;
+		
+		[ArrayElementType("net.comcast.logging.consoles.IConsole")]
+		private static var loggers:Array = [];
 		
 		/**
 		 * This level should be used only for fatal failures
@@ -98,20 +99,16 @@ package net.comcast.logging{
 		}
 		
 		
-		
+		private static var _console:IConsole;
 		/**
 		 * @private
 		 */ 
 		private static function log(source:*, lvl:Number, msg:String):void{
 			if(lvl>=level){
-				/*var log:ILogger;
-				
-				if (source is String) 
-					log = Log.getLogger(source);
-				else
-					log = Log.getLogger(Reflection.getClassName(source));
-				*/
-				_console.log(source,lvl,msg);
+				for(var i:uint=0; i<loggers.length; i++){ 
+					_console = loggers[i];
+					_console.log(source,lvl,msg);
+				}
 			}
 		}
 		
@@ -129,9 +126,24 @@ package net.comcast.logging{
 		public static function getLevel():Number{
 			return level;
 		}
+		/**
+		 * @deprecated 
+		 */ 
 		public static function set console(c:IConsole):void{
-			_console = c;
+			addLogger(c);
 		} 
+		
+		public static function addLogger(c:IConsole):void{
+			loggers.push(c);	
+		}
+		
+		public static function removeLogger(c:IConsole):void{
+			var index:Number = loggers.indexOf(c);
+			if(index==-1){
+				throw new Error("Could not remove item from Array, item doesnt exist in the Array");
+			}
+			loggers.splice(index,1);
+		}
 		
 	}
 }
