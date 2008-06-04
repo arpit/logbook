@@ -43,7 +43,7 @@ package net.comcast.logging{
 		private static var level:Number=Level.ALL;
 		
 		[ArrayElementType("net.comcast.logging.consoles.IConsole")]
-		private static var loggers:Array = [];
+		private static var consoles:Array = [];
 		
 		/**
 		 * This level should be used only for fatal failures
@@ -105,8 +105,8 @@ package net.comcast.logging{
 		 */ 
 		private static function log(source:*, lvl:Number, msg:String):void{
 			if(lvl>=level){
-				for(var i:uint=0; i<loggers.length; i++){ 
-					_console = loggers[i];
+				for(var i:uint=0; i<consoles.length; i++){ 
+					_console = consoles[i];
 					_console.log(source,lvl,msg);
 				}
 			}
@@ -130,19 +130,19 @@ package net.comcast.logging{
 		 * @deprecated 
 		 */ 
 		public static function set console(c:IConsole):void{
-			addLogger(c);
+			addConsole(c);
 		} 
 		
-		public static function addLogger(c:IConsole):void{
-			loggers.push(c);	
+		public static function addConsole(c:IConsole):void{
+			consoles.push(c);	
 		}
 		
 		public static function removeLogger(c:IConsole):void{
-			var index:Number = loggers.indexOf(c);
+			var index:Number = consoles.indexOf(c);
 			if(index==-1){
 				throw new Error("Could not remove item from Array, item doesnt exist in the Array");
 			}
-			loggers.splice(index,1);
+			consoles.splice(index,1);
 		}
 		
 	}
