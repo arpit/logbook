@@ -1,6 +1,6 @@
-<project name="LogBook - AIR Logging Console" default="generateDocs">
+<project name="LogBook - AIR Logging Console" default="generateCIMLoggingSWC">
 	<loadproperties srcFile="build.properties"/>
-	<taskdef resource="resources/flexTasks.tasks" />
+	<taskdef resource="flexTasks.tasks" classpath="${flexTasks.jar.path}" />
 	
 	<target name="generateDocs" description="Compiles the LogBook Web app">
 		<exec executable="${asdoc.app}">
@@ -16,11 +16,13 @@
 	<target name="generateCIMLoggingSWC" description="Compiles the LogBook Web app">
 		<echo message="Generating CIM Logging SWC"/>
 		<exec executable="${compc.app}">
-			
 			<arg line="-o release/swcs/CIM_logging.swc" />
-			<arg line="-include-sources src/net/comcast/logging/" />
 			<arg line="-source-path src" />
-		</exec>
+			<arg line="-library-path libs"/>
+			<arg line="-namespace http://www.comcast.net manifest.xml"/>
+			<arg line="-include-namespaces http://www.comcast.net"/>
+			<arg line="-include-file LogBookIcon.png src/icons/LogBookIcon_16.png"/>
+		</exec> 
 	</target>
 	
 	

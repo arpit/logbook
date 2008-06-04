@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<componentPackage>
+    <component id="CIM_Logger_1.3" class="net.comcast.logging.Logger"/>
+    <component id="CIM_LogBookConsole_1.3" class="net.comcast.logging.consoles.LogBookConsole"/>
+    <component id="CIM_TraceConsole_1.3" class="net.comcast.logging.consoles.TraceConsole"/>
+</componentPackage>
