@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" creationComplete="onCreationComplete()">
+	<mx:Panel width="400" height="250" layout="vertical"
+	    paddingLeft="10" paddingTop="10" title="LogBook Test" 
+	    horizontalCenter="0" verticalCenter="0">
+		<mx:Label text="{'Broadcasting on channel: '+loggingChannel }"/>
+		<mx:TextInput width="250" id="msg" text="Type your message here"/>
+		<mx:ComboBox id="levelCB" dataProvider="{logLevelOptions}"/>
+		<mx:Button label="send" click="sendLogMessage()"/>
+		<mx:HRule />
+		<mx:Button label="Clear" click="doClear()" />
+	</mx:Panel>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import net.comcast.logging.consoles.LogBookConsole;
+			import net.comcast.logging.consoles.IConsole;
+			import net.comcast.logging.Logger;
+			
+			[Bindable]
+			private var loggingChannel:String = "_test";
+			
+			[Bindable]
+			private var logLevelOptions:ArrayCollection = new ArrayCollection([
+																			{label:"Debug", value:2},
+																			{label:"Info", value:4},
+																			{label:"Warn", value:6},
+																			{label:"Error", value:8},
+																			{label:"Fatal", value:1000}]);
+			
+			private var console:LogBookConsole;
+			
+			private function onCreationComplete():void{
+				console = new LogBookConsole(loggingChannel);
+				Logger.addConsole(console);
+			}
+			
+			private function sendLogMessage():void{
+				switch(levelCB.selectedIndex){
+					case 0 : Logger.debug(this, msg.text);
+							break;
+					case 1 : Logger.info(this, msg.text);
+							break;
+					case 2 : Logger.warn(this, msg.text);
+							break;
+					case 3: Logger.error(this, msg.text);
+							break;
+					case 4: Logger.fatal(this, msg.text);
+							break;		
+				}
+			}
+			
+			private function doClear():void{
+				console.clear();
+			}
+		
+			
+			
+		]]>
+	</mx:Script>
+	
+</mx:Application>

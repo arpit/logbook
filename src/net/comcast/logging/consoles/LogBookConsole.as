@@ -76,6 +76,8 @@ public class LogBookConsole implements IConsole{
      *  The name of the method to call on the Debug application connection.
      */
     public static const LOGGING_METHOD:String = "logMessage";
+    
+    public static const REMOTE_MESSAGE_HANDLER:String = "handleMessage";
 	
     /**
      *  @private
@@ -88,6 +90,7 @@ public class LogBookConsole implements IConsole{
 	//  EventListener
 	//
 	//--------------------------------------------------------------------------
+
 
 	/**
 	 * 	Supress common LocalConnection status message from bubbling up
@@ -116,6 +119,21 @@ public class LogBookConsole implements IConsole{
 	    	trace('[LocalConection Error] cound not send message across LocalConnection ');
 	    }
     }
+    
+    public function message(msg:String, ...args):void{
+    	trace("==> " + args.length)
+    	try {
+    		if(args.length == 0){
+    			lc.send(connection, msg);
+    		}
+    		else{
+    			lc.send(connection, msg , args);
+    		}
+    		
+	    } catch(error:Error) {
+	    	trace('[LocalConection Error] cound not send message across LocalConnection ');
+	    }
+    }
 
     /**
 	 *  @private
@@ -132,6 +150,16 @@ public class LogBookConsole implements IConsole{
     
     public function getConnectionId():String {
     	return connection;
+    }
+	
+	//---------------------------------------------    
+	
+	// API
+	    
+	//---------------------------------------------    
+    
+    public function clear():void{
+    	message("clearLogs");
     }
 }
 }
