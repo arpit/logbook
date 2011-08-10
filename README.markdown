@@ -6,4 +6,4 @@ To see how to use Logbook with pure AS3 projects, see the entry [here]("http://t
 
 If you have a feature you would wish to add to the project, talk about it on the [Google Group]("http://groups.google.com/group/cimlogbook") and add it to the issues section here.
 
-![Logbook screenshot](http://arpitonline.com/images/logbook.jpg, "Logbook")
+<img src="http://www.arpitonline.com/images/logbook.jpg" />
